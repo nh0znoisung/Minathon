@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/konva@7.2.5/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Mini-Map</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #f0f0f0;
+      }
+      #container{
+          /* border: 1px solid black; */
+           /* cursor: all-scroll;  */
+           /* cursor: url(hand_hold_mouse_cursor.png) */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script>
+        function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 8,
+        });
+        }
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height,
+        draggable: true,
+      });
+      var con = document.getElementById('container')
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var WIDTH = 3000;
+      var HEIGHT = 3000;
+      var NUMBER = 50;
+
+    //   con.addEventListener('click', function(){
+        
+    //   })
+      function generateNode() {
+        return new Konva.Circle({
+          x: WIDTH * Math.random(),
+          y: HEIGHT * Math.random(),
+          radius: 50,
+          fill: 'red',
+          stroke: 'black',
+        });
+      }
+
+      for (var i = 0; i < NUMBER; i++) {
+        layer.add(generateNode());
+      }
+      layer.draw();
+      let map;
+
+
+    </script>
+  </body>
+</html>
