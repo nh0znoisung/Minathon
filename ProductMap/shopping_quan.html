@@ -85,13 +85,10 @@
                 x = _x;
                 y += scale_y; 
             }
-            more.push(generateNode(x + scale_x + 30, y + scale_y / 4));
-            layer.add(more[more.length - 1]);
         }
 
-        var POPULAR = 3;
-        createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
-        createshelf(1500, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(20, 100, 1, 6, 3, 150, 200, 'quan');
+
 
         function openInNewTab(url) {
             var win = window.open(url, '_blank');
@@ -101,18 +98,6 @@
         for (let i = 0; i < arr.length; i++){
             arr[i].on('click', function(){
                 openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
-            })
-        }
-
-        var dict = [
-            'sneaker',
-            'quan'
-        ]
-
-        for (let i = 0; i < dict.length; i++){
-            more[i].on('click', function(){
-                url = "./shopping_" + dict[i] + ".html";
-                window.location.href = url;
             })
         }
 
