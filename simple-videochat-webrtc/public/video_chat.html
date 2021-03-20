@@ -1,0 +1,203 @@
+<html>
+
+<head>
+    <title>Video Chat App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="main.css" rel="stylesheet">
+    <script src="https://unpkg.com/konva@7.2.5/konva.min.js"></script>
+</head>
+<style>
+    .video-container{
+        width: 150px;
+        padding-top: -100px;
+        /* display: flex; */
+    }
+    .aaa{
+        height: 180px;
+        padding-left: 30%;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    #container{
+      /* background-color: red; */
+    }
+
+</style>
+
+
+<body>
+    <div class="aaa">
+        <div class="row h-10 w-100" style="visibility:hidden">
+            <div class="col">
+                <select id="filter" class="w-100 bg-dark text-light ml-2 mt-2 select font-weight-bold border">
+                    <option value="none">Normal</option>
+                    <option value="grayscale(100%)">B & W</option>
+                    <option value="sepia(100%)">Old School</option>
+                    <option value="contrast(150%)">Lumination</option>
+                    <option value="blur(20px)">Hidden Mist</option>
+                    <option value="invert(100%)">Dracula</option>
+                    <option value="hue-rotate(180deg">X-men Beast</option>
+                    <option value="saturate(25)">Super Saiyan God</option>
+                </select>
+            </div>
+            <div class="col">
+                <div class="float-right mt-3">
+                    <input class="form-check-input" type="checkbox" id="theme">
+                    <label class="form-check-label" for="theme">
+                        Dark Theme
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row h-90 w-100">
+            <div class="col-12 col-sm-3 d-flex justify-content-center">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video class="embed-responsive-item" muted></video>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 d-flex justify-content-center">
+                <div id="peerDiv" class="embed-responsive embed-responsive-16by9">
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- ///// -->
+    <div id="container"></div>
+    <script>
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        var stage = new Konva.Stage({
+            container: 'container',
+            width: width,
+            height: height,
+            draggable: true,
+        });
+
+        var layer = new Konva.Layer();
+        stage.add(layer);
+
+        function generateNode(_x, _y) {
+            return new Konva.Rect({
+                x: _x,
+                y: _y,
+                width: 50,
+                height: 20,
+                fill: 'red',
+                stroke: 'black',
+            });
+        }
+
+        const IMG_WIDTH = 106;
+        const IMG_HEIGHT = 118;
+
+        function addImg(_x, _y, img_scr){
+            var imageObj = new Image();
+            imageObj.onload = function () {
+                    var yoda = new Konva.Image({
+                    x: _x,
+                    y: _y,
+                    image: imageObj,
+                    width: IMG_WIDTH,
+                    height: IMG_HEIGHT,
+                });
+
+                // add the shape to the layer
+                layer.add(yoda);
+                layer.batchDraw();
+            };
+            imageObj.src = img_scr;
+        }
+
+        var arr = [];
+        var more = [];
+        function createshelf(_x, _y, start, end, per_line, scale_x, scale_y, product){
+            n = end - start + 1;
+            x = _x;
+            y = _y;
+            k = start;
+            for(let i = 0; i < n / per_line; i++){
+                for (let j = 0; j < per_line; j++){
+                    var name = 'products/' + product + '_' + k.toString() + '.png';
+                    console.log(name);
+                    addImg(x, y, name);
+                    arr.push(generateNode(x + 30, y + 128));
+                    layer.add(arr[arr.length - 1]);
+                    x += scale_x;
+                    k += 1;
+                }
+                x = _x;
+                y += scale_y; 
+            }
+            more.push(generateNode(x + scale_x + 30, y + scale_y / 4));
+            layer.add(more[more.length - 1]);
+        }
+
+        var POPULAR = 3;
+        createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
+        createshelf(1500, 100, 1, POPULAR, 3, 150, 200, 'quan');
+
+        function openInNewTab(url) {
+            var win = window.open(url, '_blank');
+            win.focus();
+        }       
+
+        for (let i = 0; i < arr.length; i++){
+            arr[i].on('click', function(){
+                openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
+            })
+        }
+
+        var dict = [
+            'sneaker',
+            'quan'
+        ]
+
+        for (let i = 0; i < dict.length; i++){
+            more[i].on('click', function(){
+                url = "./shopping_" + dict[i] + ".html";
+                window.location.href = url;
+            })
+        }
+
+        layer.draw();
+
+        var scaleBy = 1.35;
+        stage.on('wheel', (e) => {
+            e.evt.preventDefault();
+            var oldScale = stage.scaleX();
+
+            var pointer = stage.getPointerPosition();
+
+            var mousePointTo = {
+                x: (pointer.x - stage.x()) / oldScale,
+                y: (pointer.y - stage.y()) / oldScale,
+            };
+
+            var newScale =
+            e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+            stage.scale({ x: newScale, y: newScale });
+
+            var newPos = {
+                x: pointer.x - mousePointTo.x * newScale,
+                y: pointer.y - mousePointTo.y * newScale,
+            };
+            stage.position(newPos);
+            stage.batchDraw();
+        });
+
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
