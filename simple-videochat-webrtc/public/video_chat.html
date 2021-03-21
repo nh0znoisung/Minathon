@@ -173,11 +173,17 @@
             var win = window.open(url, '_blank');
             win.focus();
         }       
-
-        arr_img[0].on('click', ()=>{
-            openInNewTab("")
-        })
-        for (let i = 0; i < arr_img.length; i++){
+        var theDir = window.location.protocol + '//' + window.location.host
+        // arr_img[0].on('click', ()=>{
+        //     openInNewTab(theDir + "group/1")
+        // })
+        // console.log(window.location.host)
+        for(let i = 0; i<9; i+=3){
+            arr_img[i].on('click', ()=>{
+                openInNewTab(theDir + `/group/${i/3 + 1}`)
+            })
+        }
+        for (let i = 0; i < arr_img.length && i%3 != 0; i++){
             arr_img[i].on('click', function(){
                 openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
             })

@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000
 const path = require('path');
 
 app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + "/public/carts"))
 
 
 function Disconnect() {
@@ -67,7 +68,17 @@ app.get('/user', function(req, res){
 })
 
 // app.listen(5000, () => console.log(`Active on 5000 port`))
-app.get('/')
+app.get('/group/1', function(req,res){
+    res.sendFile(path.join(__dirname + '/public/carts/cart1.html'))
+})
+
+app.get('/group/2', function(req,res){
+    res.sendFile(path.join(__dirname + '/public/carts/cart2.html'))
+})
+
+app.get('/group/3', function(req,res){
+    res.sendFile(path.join(__dirname + '/public/carts/cart3.html'))
+})
 
 http.listen(port, () =>{
     
