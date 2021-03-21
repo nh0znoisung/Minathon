@@ -23,6 +23,9 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
 
+        const BUT_WIDTH = 50;
+        const BUT_HEIGHT = 20;
+
         var stage = new Konva.Stage({
             container: 'container',
             width: width,
@@ -33,13 +36,13 @@
         var layer = new Konva.Layer();
         stage.add(layer);
 
-        function generateNode(_x, _y) {
+        function generateNode(_x, _y, color, _width, _height) {
             return new Konva.Rect({
                 x: _x,
                 y: _y,
-                width: 50,
-                height: 20,
-                fill: 'red',
+                width: _width,
+                height: _height,
+                fill: color,
                 stroke: 'black',
             });
         }
@@ -77,7 +80,7 @@
                     var name = 'products/' + product + '_' + k.toString() + '.png';
                     console.log(name);
                     addImg(x, y, name);
-                    arr.push(generateNode(x + 30, y + 128));
+                    arr.push(generateNode(x + 30, y + 128, 'yellow', BUT_WIDTH, BUT_HEIGHT));
                     layer.add(arr[arr.length - 1]);
                     x += scale_x;
                     k += 1;
@@ -85,13 +88,14 @@
                 x = _x;
                 y += scale_y; 
             }
-            more.push(generateNode(x + scale_x + 30, y + scale_y / 4));
+            more.push(generateNode(x + scale_x + 10, y + scale_y / 8, 'green', BUT_WIDTH + 50, BUT_HEIGHT));
             layer.add(more[more.length - 1]);
         }
 
         var POPULAR = 3;
         createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
-        createshelf(1500, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(1000, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(20, 500, 1, POPULAR, 3, 150, 200, 'shirt');
 
         function openInNewTab(url) {
             var win = window.open(url, '_blank');
@@ -106,13 +110,14 @@
 
         var dict = [
             'sneaker',
-            'quan'
+            'quan',
+            'shirt'
         ]
 
         for (let i = 0; i < dict.length; i++){
             more[i].on('click', function(){
                 url = "./shopping_" + dict[i] + ".html";
-                window.location.href = url;
+                openInNewTab(url);
             })
         }
 
