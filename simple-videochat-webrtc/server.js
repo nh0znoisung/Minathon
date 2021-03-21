@@ -67,7 +67,7 @@ app.get('/user', function(req, res){
 })
 
 // app.listen(5000, () => console.log(`Active on 5000 port`))
-
+app.get('/')
 
 http.listen(port, () =>{
     
