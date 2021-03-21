@@ -24,7 +24,7 @@
       background-color: #f0f0f0;
     }
     #container{
-      /* background-color: red; */
+      background-color: white;
     }
 
 </style>
@@ -75,6 +75,9 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
 
+        const BUT_WIDTH = 50;
+        const BUT_HEIGHT = 20;
+
         var stage = new Konva.Stage({
             container: 'container',
             width: width,
@@ -83,21 +86,24 @@
         });
 
         var layer = new Konva.Layer();
+        var layer_2 = new Konva.Layer();
         stage.add(layer);
+        stage.add(layer_2);
 
-        function generateNode(_x, _y) {
+        function generateNode(_x, _y, color, _width, _height) {
             return new Konva.Rect({
                 x: _x,
                 y: _y,
-                width: 50,
-                height: 20,
-                fill: 'red',
+                width: _width,
+                height: _height,
+                fill: color,
                 stroke: 'black',
             });
         }
 
         const IMG_WIDTH = 106;
         const IMG_HEIGHT = 118;
+        var arr_img = [];
 
         function addImg(_x, _y, img_scr){
             var imageObj = new Image();
@@ -117,6 +123,17 @@
             imageObj.src = img_scr;
         }
 
+        function trans_rect(_x, _y){
+            return new Konva.Rect({
+                x: _x,
+                y: _y,
+                width: IMG_WIDTH,
+                height: IMG_HEIGHT,
+                opacity : 0
+                // fill: 'red'
+            });
+        }
+
         var arr = [];
         var more = [];
         function createshelf(_x, _y, start, end, per_line, scale_x, scale_y, product){
@@ -129,46 +146,57 @@
                     var name = 'products/' + product + '_' + k.toString() + '.png';
                     console.log(name);
                     addImg(x, y, name);
-                    arr.push(generateNode(x + 30, y + 128));
-                    layer.add(arr[arr.length - 1]);
+                    // arr.push(generateNode(x + 30, y + 128, 'yellow', BUT_WIDTH, BUT_HEIGHT));
+                    arr_img.push(trans_rect(x, y));
+                    layer_2.add(arr_img[arr_img.length - 1]);
+                    // layer.add(arr[arr.length - 1]);
                     x += scale_x;
                     k += 1;
                 }
                 x = _x;
                 y += scale_y; 
             }
-            more.push(generateNode(x + scale_x + 30, y + scale_y / 4));
+            more.push(generateNode(x + scale_x + 10, y + scale_y / 8, 'green', BUT_WIDTH + 50, BUT_HEIGHT));
             layer.add(more[more.length - 1]);
         }
 
         var POPULAR = 3;
         createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
-        createshelf(1500, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(1000, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(20, 500, 1, POPULAR, 3, 150, 200, 'shirt');
 
         function openInNewTab(url) {
             var win = window.open(url, '_blank');
             win.focus();
         }       
 
-        for (let i = 0; i < arr.length; i++){
-            arr[i].on('click', function(){
+        // arr_img[0].on('click')
+        for (let i = 0; i < arr_img.length; i++){
+            // arr[i].on('click', function(){
+            //     openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
+            // })
+            // console.log(typeof(arr_img[i]))
+            arr_img[i].on('click', function(){
+                // console.log('img')
                 openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
             })
         }
 
         var dict = [
             'sneaker',
-            'quan'
+            'quan',
+            'shirt'
         ]
 
         for (let i = 0; i < dict.length; i++){
             more[i].on('click', function(){
                 url = "./shopping_" + dict[i] + ".html";
-                window.location.href = url;
+                openInNewTab(url);
             })
         }
 
         layer.draw();
+        layer_2.draw();
 
         var scaleBy = 1.35;
         stage.on('wheel', (e) => {
