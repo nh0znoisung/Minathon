@@ -134,6 +134,12 @@
             });
         }
 
+        function createProduct(x, y, name){
+            addImg(x, y, name);
+            arr_img.push(trans_rect(x, y));
+            layer_2.add(arr_img[arr_img.length - 1]);
+        }
+
         var arr = [];
         var more = [];
         function createshelf(_x, _y, start, end, per_line, scale_x, scale_y, product){
@@ -144,11 +150,7 @@
             for(let i = 0; i < n / per_line; i++){
                 for (let j = 0; j < per_line; j++){
                     var name = 'products/' + product + k.toString() + '.png';
-                    console.log(name);
-                    addImg(x, y, name);
-                    // arr.push(generateNode(x + 30, y + 128, 'yellow', BUT_WIDTH, BUT_HEIGHT));
-                    arr_img.push(trans_rect(x, y));
-                    layer_2.add(arr_img[arr_img.length - 1]);
+                    createProduct(x, y, name)
                     // layer.add(arr[arr.length - 1]);
                     x += scale_x;
                     k += 1;
@@ -160,42 +162,74 @@
             layer.add(more[more.length - 1]);
         }
 
-        var POPULAR = 3;
-        createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
-        createshelf(700, 100, 1, POPULAR, 3, 150, 200, 'quan');
-        createshelf(1400, 100, 1, POPULAR, 3, 150, 200, 'tui');
-        createshelf(20, 500, 1, POPULAR, 3, 150, 200, 'shirt');
-        createshelf(720, 500, 1, POPULAR, 3, 150, 200, 'vi');
-        createshelf(1420, 500, 1, POPULAR, 3, 150, 200, 'guoc');
-        createshelf(720, 1000, 1, POPULAR, 3, 150, 200, 'daychuyen');
+        // var POPULAR = 3;
+        // createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
+        // createshelf(700, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        // createshelf(1400, 100, 1, POPULAR, 3, 150, 200, 'tui');
+        // createshelf(20, 500, 1, POPULAR, 3, 150, 200, 'shirt');
+        // createshelf(720, 500, 1, POPULAR, 3, 150, 200, 'vi');
+        // createshelf(1420, 500, 1, POPULAR, 3, 150, 200, 'guoc');
+        // createshelf(720, 1000, 1, POPULAR, 3, 150, 200, 'daychuyen');
+
+        function createSubCategories(_x, _y, scale_x, product, n){
+            x = _x;
+            y = _y;
+            for(let i = 1; i <= n; i++){
+                var name = 'products/' + product + i.toString() + '/' + product + '1.png';
+                console.log(name)
+                createProduct(x, y, name);
+                x = x + scale_x;
+            }
+        }
+
+        createSubCategories(275, 100, 150, 'sneaker', 3)
+        createSubCategories(975, 100, 150, 'quan', 3)
+        createSubCategories(1675, 100, 150, 'tui', 3)
+        createSubCategories(275, 500, 150, 'shirt', 3)
+        createSubCategories(975, 500, 150, 'vi', 3)
+        createSubCategories(1675, 500, 150, 'guoc', 3)
+        createSubCategories(975, 1000, 150, 'daychuyen', 3)
+
 
         function openInNewTab(url) {
             var win = window.open(url, '_blank');
             win.focus();
         }       
 
-        for (let i = 0; i < arr_img.length; i++){
-            arr_img[i].on('click', function(){
-                openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
-            })
+        function add_on_click(product, s, t){
+            for (let i = s; i <= t; i++){
+                arr_img[i].on('click', function(){
+                    var t = i % 3 + 1;
+                    var scr = "./shopping_" + product + t.toString() + ".html";
+                    console.log()
+                    openInNewTab("./shopping_" + product + t.toString() + ".html")
+                })
+            }
         }
 
-        var dict = [
-            'sneaker',
-            'quan',
-            'tui',
-            'shirt',
-            'vi',
-            'guoc',
-            'daychuyen'
-        ]
+        add_on_click('sneaker', 0, 2);
+        add_on_click('quan', 3, 5);
+        add_on_click('tui', 6, 8);
+        add_on_click('shirt', 9, 11);
+        add_on_click('vi', 12, 14);
+        add_on_click('guoc', 15, 17);
+        add_on_click('daychuyen', 18, 20);
+        // var dict = [
+        //     'sneaker',
+        //     'quan',
+        //     'tui',
+        //     'shirt',
+        //     'vi',
+        //     'guoc',
+        //     'daychuyen'
+        // ]
 
-        for (let i = 0; i < dict.length; i++){
-            more[i].on('click', function(){
-                url = "./shopping_" + dict[i] + ".html";
-                openInNewTab(url);
-            })
-        }
+        // for (let i = 0; i < dict.length; i++){
+        //     more[i].on('click', function(){
+        //         url = "./shopping_" + dict[i] + ".html";
+        //         openInNewTab(url);
+        //     })
+        // }
 
         layer.draw();
         layer_2.draw();
