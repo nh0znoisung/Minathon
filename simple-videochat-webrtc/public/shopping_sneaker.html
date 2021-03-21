@@ -34,7 +34,9 @@
         });
 
         var layer = new Konva.Layer();
+        var layer_2 = new Konva.Layer();
         stage.add(layer);
+        stage.add(layer_2);
 
         function generateNode(_x, _y, color, _width, _height) {
             return new Konva.Rect({
@@ -49,6 +51,7 @@
 
         const IMG_WIDTH = 106;
         const IMG_HEIGHT = 118;
+        var arr_img = [];
 
         function addImg(_x, _y, img_scr){
             var imageObj = new Image();
@@ -68,6 +71,17 @@
             imageObj.src = img_scr;
         }
 
+        function trans_rect(_x, _y){
+            return new Konva.Rect({
+                x: _x,
+                y: _y,
+                width: IMG_WIDTH,
+                height: IMG_HEIGHT,
+                opacity : 0
+                // fill: 'red'
+            });
+        }
+
         var arr = [];
         var more = [];
         function createshelf(_x, _y, start, end, per_line, scale_x, scale_y, product){
@@ -77,11 +91,13 @@
             k = start;
             for(let i = 0; i < n / per_line; i++){
                 for (let j = 0; j < per_line; j++){
-                    var name = 'products/' + product + '_' + k.toString() + '.png';
+                    var name = 'products/' + product + k.toString() + '.png';
                     console.log(name);
                     addImg(x, y, name);
-                    arr.push(generateNode(x + 30, y + 128, 'yellow', BUT_WIDTH, BUT_HEIGHT));
-                    layer.add(arr[arr.length - 1]);
+                    // arr.push(generateNode(x + 30, y + 128, 'yellow', BUT_WIDTH, BUT_HEIGHT));
+                    arr_img.push(trans_rect(x, y));
+                    layer_2.add(arr_img[arr_img.length - 1]);
+                    // layer.add(arr[arr.length - 1]);
                     x += scale_x;
                     k += 1;
                 }
@@ -98,13 +114,14 @@
             win.focus();
         }       
 
-        for (let i = 0; i < arr.length; i++){
-            arr[i].on('click', function(){
+        for (let i = 0; i < arr_img.length; i++){
+            arr_img[i].on('click', function(){
                 openInNewTab("https://shopee.vn/Gi%C3%A0y-AF1-tr%E1%BA%AFng-ch%E1%BA%A5t-li%E1%BB%87u-da-mi%E1%BA%BFng-ch%E1%BB%91ng-nh%C4%83n-d%E1%BB%85-ph%E1%BB%91i-%C4%91%E1%BB%93-phong-c%C3%A1ch-th%E1%BB%83-thao.TU%E1%BA%A4N-GI%C3%80Y-i.311446571.7667276005")
             })
         }
 
         layer.draw();
+        layer_2.draw();
 
         var scaleBy = 1.35;
         stage.on('wheel', (e) => {
