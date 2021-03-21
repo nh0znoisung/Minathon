@@ -143,7 +143,7 @@
             k = start;
             for(let i = 0; i < n / per_line; i++){
                 for (let j = 0; j < per_line; j++){
-                    var name = 'products/' + product + '_' + k.toString() + '.png';
+                    var name = 'products/' + product + k.toString() + '.png';
                     console.log(name);
                     addImg(x, y, name);
                     // arr.push(generateNode(x + 30, y + 128, 'yellow', BUT_WIDTH, BUT_HEIGHT));
@@ -162,8 +162,12 @@
 
         var POPULAR = 3;
         createshelf(20, 100, 1, POPULAR, 3, 150, 200, 'sneaker');
-        createshelf(1000, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(700, 100, 1, POPULAR, 3, 150, 200, 'quan');
+        createshelf(1400, 100, 1, POPULAR, 3, 150, 200, 'tui');
         createshelf(20, 500, 1, POPULAR, 3, 150, 200, 'shirt');
+        createshelf(720, 500, 1, POPULAR, 3, 150, 200, 'vi');
+        createshelf(1420, 500, 1, POPULAR, 3, 150, 200, 'guoc');
+        createshelf(720, 1000, 1, POPULAR, 3, 150, 200, 'daychuyen');
 
         function openInNewTab(url) {
             var win = window.open(url, '_blank');
@@ -179,7 +183,11 @@
         var dict = [
             'sneaker',
             'quan',
-            'shirt'
+            'tui',
+            'shirt',
+            'vi',
+            'guoc',
+            'daychuyen'
         ]
 
         for (let i = 0; i < dict.length; i++){
